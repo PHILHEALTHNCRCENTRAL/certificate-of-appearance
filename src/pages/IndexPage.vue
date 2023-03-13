@@ -4,8 +4,11 @@ import SignaturePad from "signature_pad";
 import jsPDF from "jspdf";
 import LetterHead from "src/custom_templates/letter_head";
 import autoTable from "jspdf-autotable";
+import { useQuasar } from "quasar";
+import PdfFrame from "src/components/PdfFrame.vue";
 
 const canvas = ref(null);
+const $q = useQuasar();
 let signaturePad = null;
 let doc = null;
 
@@ -74,7 +77,12 @@ const handleSubmit = () => {
     startY: 120,
   });
 
-  doc.save("sample.pdf");
+  doc.save("certificate_of_appearance.pdf");
+
+  $q.dialog({
+    message: "Certificate of Appearance has been generated!",
+    ok: true,
+  });
 };
 
 const handleClear = () => signaturePad.clear();
@@ -136,7 +144,7 @@ const handleClear = () => signaturePad.clear();
               <canvas
                 ref="canvas"
                 class="signature-pad"
-                width="400"
+                width="270"
                 height="200"
               ></canvas>
             </div>
@@ -153,7 +161,7 @@ const handleClear = () => signaturePad.clear();
 
         <q-card-actions>
           <q-btn
-            label="SUBMIT"
+            label="GENERATE"
             type="submit"
             class="full-width"
             color="primary"
@@ -179,8 +187,8 @@ const handleClear = () => signaturePad.clear();
   position: absolute;
   left: 0;
   top: 0;
-  width: 350px;
-  height: 200px;
+  /* width: 350px;
+  height: 200px; */
   background-color: white;
   border: 1px solid black;
 }
