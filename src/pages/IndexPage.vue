@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, ref, onMounted } from "vue";
+import { reactive, ref, onMounted, computed } from "vue";
 import SignaturePad from "signature_pad";
 import jsPDF from "jspdf";
 import LetterHead from "src/custom_templates/letter_head";
@@ -47,10 +47,10 @@ const handleSubmit = () => {
     90,
     {
       align: "left",
-      maxWidth: "170",
+      maxWidth: "170", // default 170
     }
   );
-
+  // CREATE THE TABLE
   autoTable(doc, {
     head: [
       [
@@ -69,6 +69,7 @@ const handleSubmit = () => {
         `${form.person_visited} - ${form.place_visited}`,
       ],
     ],
+    // ATTACH THE SIGNATURE
     didDrawCell: (data) => {
       if (data.section === "body" && data.column.index === 4) {
         doc.addImage(sig, "JPEG", data.cell.x + 2, data.cell.y + 2, 20, 10);
@@ -93,7 +94,7 @@ const handleClear = () => signaturePad.clear();
     <q-card style="max-width: 80%; width: 800px">
       <q-card-section> </q-card-section>
       <q-card-section class="text-h6"> Enter your info: </q-card-section>
-      <q-form @submit.prevent="handleSubmit">
+      <q-form @submit.prevent="handleSubmit" greedy>
         <q-card-section class="q-col-gutter-sm">
           <div class="row q-gutter-sm">
             <q-input
@@ -102,12 +103,14 @@ const handleClear = () => signaturePad.clear();
               label="OB date"
               type="date"
               outlined
+              :rules="[(val) => !!val || 'OB date is required!']"
             />
             <q-input
               v-model="form.place_visited"
               class="col"
               label="Place Visited"
               outlined
+              :rules="[(val) => !!val || 'Place visited is required!']"
             />
           </div>
           <q-input
@@ -115,6 +118,7 @@ const handleClear = () => signaturePad.clear();
             class="col"
             label="Employee name"
             outlined
+            :rules="[(val) => !!val || 'Employee name is required!']"
           />
           <div class="row q-gutter-sm">
             <q-input
@@ -123,6 +127,7 @@ const handleClear = () => signaturePad.clear();
               label="Time of Arrival"
               type="time"
               outlined
+              :rules="[(val) => !!val || 'Time of Arrival is required!']"
             />
             <q-input
               v-model="form.time_of_departure"
@@ -130,6 +135,7 @@ const handleClear = () => signaturePad.clear();
               label="Time of Departure"
               type="time"
               outlined
+              :rules="[(val) => !!val || 'Time of Departure is required!']"
             />
           </div>
           <q-input
@@ -137,6 +143,7 @@ const handleClear = () => signaturePad.clear();
             class="col"
             label="Person visited"
             outlined
+            :rules="[(val) => !!val || 'Person Visited is required!']"
           />
           <div class="text-h6">Person Visited Signature</div>
           <div class="row q-gutter-sm justify-center items-center q-mt-md">
