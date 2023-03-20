@@ -173,6 +173,7 @@ const handleClear = () => signaturePad.clear();
 
         <q-card-actions>
           <q-btn
+            :disable="gas.form.image === null"
             label="GENERATE"
             type="submit"
             class="full-width"
