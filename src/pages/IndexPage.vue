@@ -1,29 +1,21 @@
 <script setup>
-import { reactive, ref, onMounted, computed } from "vue";
+import CaptureImageBtn from "../components/CaptureImageBtn.vue";
+import { ref, onMounted } from "vue";
 import SignaturePad from "signature_pad";
 import jsPDF from "jspdf";
 import LetterHead from "src/custom_templates/letter_head";
 import autoTable from "jspdf-autotable";
 import { useQuasar } from "quasar";
-import PdfFrame from "src/components/PdfFrame.vue";
+import { useGenerateAppearanceStore } from "src/stores/GenerateAppearancePDF";
 
 const canvas = ref(null);
 const $q = useQuasar();
 let signaturePad = null;
 let doc = null;
+const gas = useGenerateAppearanceStore();
 
 onMounted(() => {
   signaturePad = new SignaturePad(canvas.value);
-});
-
-const form = reactive({
-  ob_date: null,
-  place_visited: null,
-  employee_name: null,
-  time_of_arrival: null,
-  time_of_departure: null,
-  person_visited: null,
-  signature: null,
 });
 
 const handleSubmit = () => {
@@ -34,7 +26,7 @@ const handleSubmit = () => {
 
   const sig = signaturePad.toDataURL();
 
-  form.signature = signaturePad.toDataURL();
+  gas.form.signature = signaturePad.toDataURL();
   doc.addImage(LetterHead, 35, 10, 150, 25);
   doc.setFont("helvetica", "bold");
   doc.text("CERTIFICATE OF APPEARANCE", 105, 50, null, null, "center");
@@ -42,7 +34,7 @@ const handleSubmit = () => {
   doc.text(`Date: ${now}`, 190, 70, null, null, "right");
   doc.text("To whom it may concern:", 20, 80, "left");
   doc.text(
-    `This is to certify that ${form.employee_name} went out of the office premises on the following date/s on official business`,
+    `This is to certify that ${gas.form.employee_name} went out of the office premises on the following date/s on official business`,
     20,
     90,
     {
@@ -63,10 +55,10 @@ const handleSubmit = () => {
     ],
     body: [
       [
-        form.ob_date,
-        form.time_of_arrival,
-        form.time_of_departure,
-        `${form.person_visited} - ${form.place_visited}`,
+        gas.form.ob_date,
+        gas.form.time_of_arrival,
+        gas.form.time_of_departure,
+        `${gas.form.person_visited} - ${gas.form.place_visited}`,
       ],
     ],
     // ATTACH THE SIGNATURE
@@ -77,6 +69,9 @@ const handleSubmit = () => {
     },
     startY: 120,
   });
+
+  // ID IMAGE
+  doc.addImage(gas.form.image, "JPEG", 50, 160, 100, 60);
 
   doc.save("certificate_of_appearance.pdf");
 
@@ -96,42 +91,42 @@ const handleClear = () => signaturePad.clear();
       <q-card-section class="text-h6"> Enter your info: </q-card-section>
       <q-form @submit.prevent="handleSubmit" greedy>
         <q-card-section class="q-col-gutter-sm">
-          <div class="row q-gutter-sm">
+          <div class="row q-col-gutter-sm">
             <q-input
-              v-model="form.ob_date"
-              class="col"
+              v-model="gas.form.ob_date"
+              class="col-12 col-md-6"
               label="OB date"
               type="date"
               outlined
               :rules="[(val) => !!val || 'OB date is required!']"
             />
             <q-input
-              v-model="form.place_visited"
-              class="col"
+              v-model="gas.form.place_visited"
+              class="col-12 col-md-6"
               label="Place Visited"
               outlined
               :rules="[(val) => !!val || 'Place visited is required!']"
             />
           </div>
           <q-input
-            v-model="form.employee_name"
-            class="col"
+            v-model="gas.form.employee_name"
+            class="col-12"
             label="Employee name"
             outlined
             :rules="[(val) => !!val || 'Employee name is required!']"
           />
-          <div class="row q-gutter-sm">
+          <div class="row q-col-gutter-sm">
             <q-input
-              v-model="form.time_of_arrival"
-              class="col"
+              v-model="gas.form.time_of_arrival"
+              class="col-12 col-md-6"
               label="Time of Arrival"
               type="time"
               outlined
               :rules="[(val) => !!val || 'Time of Arrival is required!']"
             />
             <q-input
-              v-model="form.time_of_departure"
-              class="col"
+              v-model="gas.form.time_of_departure"
+              class="col-12 col-md-6"
               label="Time of Departure"
               type="time"
               outlined
@@ -139,7 +134,7 @@ const handleClear = () => signaturePad.clear();
             />
           </div>
           <q-input
-            v-model="form.person_visited"
+            v-model="gas.form.person_visited"
             class="col"
             label="Person visited"
             outlined
@@ -162,6 +157,16 @@ const handleClear = () => signaturePad.clear();
                 label="clear signature"
                 color="negative"
               />
+            </div>
+          </div>
+          <div class="text-h6">Person ID</div>
+
+          <div class="row justify-center q-col-gutter-md">
+            <div class="col-12 col-md-6">
+              <q-img v-if="gas.form.image" :src="gas.form.image" />
+            </div>
+            <div class="col-12 col-md-6 flex flex-center">
+              <CaptureImageBtn />
             </div>
           </div>
         </q-card-section>
