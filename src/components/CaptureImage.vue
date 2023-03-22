@@ -72,13 +72,13 @@ onUnmounted(() => (showCamera.value = false));
       </q-card-section>
 
       <q-card-actions align="center">
+        <q-btn v-close-popup color="negative" label="CANCEL" icon="camera" />
         <q-btn
           @click="snapshot"
           color="primary"
           label="CAPTURE"
           icon="camera"
         />
-        <q-btn v-close-popup color="negative" label="CANCEL" icon="camera" />
       </q-card-actions>
     </q-card>
   </q-dialog>

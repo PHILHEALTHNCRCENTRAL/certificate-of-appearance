@@ -15,7 +15,12 @@ const handleSubmit = () => {
       message: "Certificate of Appearance has been generated!",
       ok: true,
     });
-  } catch (error) {}
+  } catch (error) {
+    $q.dialog({
+      message: "Failed to generate pdf!",
+      color: "negative",
+    });
+  }
 };
 
 const handleCreateSignature = () => {
