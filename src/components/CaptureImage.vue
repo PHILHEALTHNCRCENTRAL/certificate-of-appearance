@@ -38,9 +38,10 @@ const handleError = () => {
   cameraStatus.value = "error";
   cameraLoading.value = false;
   $q.dialog({
-    message: "Error: Failed to load camera!",
+    message:
+      "Error: Failed to load capture device! Please check the capture device",
     color: "negative",
-  });
+  }).onOk(() => dialogRef.value.hide());
 };
 
 onMounted(() => (showCamera.value = true));

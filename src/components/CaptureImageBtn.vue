@@ -17,5 +17,6 @@ const handleClick = () => {
     icon="photo_camera"
     label="TAKE ID PIC"
     color="primary"
+    outline
   />
 </template>
