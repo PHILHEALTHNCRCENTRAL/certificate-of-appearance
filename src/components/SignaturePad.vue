@@ -18,11 +18,11 @@ const handleSave = () => {
 <template>
   <q-dialog ref="dialogRef">
     <q-card
-      style="max-width: 80%; width: 800px; height: 800px; max-height: 50%"
+      style="max-width: 80%; width: 800px; height: 1000px; max-height: 50%"
     >
       <q-card-section class="text-h5"> Signature Pad </q-card-section>
       <q-card-section>
-        <VueSignaturePad class="signature" ref="signPadRef" />
+        <VueSignaturePad class="signature" ref="signPadRef" height="250px" />
       </q-card-section>
 
       <q-card-actions align="center" class="q-gutter-sm">
