@@ -79,7 +79,8 @@ export const useGenerateAppearanceStore = defineStore(
         });
 
         // ID IMAGE
-        doc.addImage(form.image, "JPEG", 50, 160, 100, 60);
+        // doc.addImage(form.image, "JPEG", 50, 160, 100, 60);
+        doc.addImage(form.image, "PNG", 50, 160, 120, 100, undefined, "FAST");
 
         doc.save("certificate_of_appearance.pdf");
       } catch (error) {

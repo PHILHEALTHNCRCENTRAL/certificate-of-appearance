@@ -1,12 +1,11 @@
 <script setup>
-import CaptureImageBtn from "../components/CaptureImageBtn.vue";
-
 import { useQuasar } from "quasar";
 import { useGenerateAppearanceStore } from "src/stores/GenerateAppearancePDF";
-import SignaturePad from "./SignaturePad.vue";
+import { useRouter } from "vue-router";
 
 const $q = useQuasar();
 const gas = useGenerateAppearanceStore();
+const router = useRouter();
 
 const handleSubmit = () => {
   try {
@@ -23,11 +22,7 @@ const handleSubmit = () => {
   }
 };
 
-const handleCreateSignature = () => {
-  $q.dialog({
-    component: SignaturePad,
-  });
-};
+const handleCreateSignature = () => router.push({ name: "signature-pad-page" });
 </script>
 
 <template>
@@ -111,7 +106,13 @@ const handleCreateSignature = () => {
         <q-toolbar>
           <div class="text-weight-bold">Person Visited Id</div>
           <q-space />
-          <CaptureImageBtn />
+          <q-btn
+            :to="{ name: 'camera-capture-page' }"
+            icon="photo_camera"
+            label="TAKE ID PIC"
+            color="primary"
+            outline
+          />
         </q-toolbar>
 
         <!-- DISPLAY THE CAPTURED ID  -->
