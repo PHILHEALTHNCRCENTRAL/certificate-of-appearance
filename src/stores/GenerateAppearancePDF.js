@@ -1,16 +1,19 @@
 import { defineStore } from "pinia";
 import { reactive } from "vue";
 import jsPDF from "jspdf";
-import LetterHead from "src/custom_templates/letter_head";
+// import LetterHead from "src/custom_templates/letter_head";
 import autoTable from "jspdf-autotable";
+import philhealthBanner from "src/custom_templates/philhealth_banner";
+import bangonPilipinas from "src/custom_templates/bangon_pilipinas";
+import contactInfo from "src/custom_templates/contact_info";
 
 const initialForm = {
-  ob_date: null,
-  place_visited: null,
-  employee_name: null,
-  time_of_arrival: null,
-  time_of_departure: null,
-  person_visited: null,
+  ob_date: "",
+  place_visited: "",
+  employee_name: "",
+  time_of_arrival: "",
+  time_of_departure: "",
+  person_visited: "",
   signature: null,
   image: null,
 };
@@ -27,7 +30,11 @@ export const useGenerateAppearanceStore = defineStore(
         const now = new Date().toDateString();
         const signature = form.signature;
 
-        doc.addImage(LetterHead, 35, 10, 150, 25);
+        // doc.addImage(LetterHead, 35, 10, 150, 25);
+        doc.addImage(philhealthBanner, 15, 15, 30, 15);
+        doc.addImage(bangonPilipinas, 50, 15, 18, 13);
+        doc.addImage(contactInfo, 110, 10, 85, 30);
+
         doc.setFont("helvetica", "bold");
         doc.text("CERTIFICATE OF APPEARANCE", 105, 50, null, null, "center");
         doc.setFont("times", "normal");
