@@ -34,7 +34,7 @@ const handleCreateSignature = () => router.push({ name: "signature-pad-page" });
           <q-input
             hide-bottom-space
             v-model="gas.form.ob_date"
-            class="col-12 col-md-6"
+            class="col-12"
             label="OB date"
             type="date"
             outlined
@@ -43,7 +43,7 @@ const handleCreateSignature = () => router.push({ name: "signature-pad-page" });
           <q-input
             hide-bottom-space
             v-model="gas.form.place_visited"
-            class="col-12 col-md-6"
+            class="col-12"
             label="Place Visited"
             outlined
             :rules="[(val) => !!val || 'Place visited is required!']"
