@@ -6,6 +6,7 @@ import autoTable from "jspdf-autotable";
 import philhealthBanner from "src/custom_templates/philhealth_banner";
 import bangonPilipinas from "src/custom_templates/bangon_pilipinas";
 import contactInfo from "src/custom_templates/contact_info";
+import socotec from "src/custom_templates/socotec";
 
 const initialForm = {
   ob_date: "",
@@ -88,6 +89,8 @@ export const useGenerateAppearanceStore = defineStore(
         // ID IMAGE
         // doc.addImage(form.image, "JPEG", 50, 160, 100, 60);
         doc.addImage(form.image, "PNG", 50, 160, 120, 100, undefined, "FAST");
+
+        doc.addImage(socotec, 15, 275, 30, 15);
 
         doc.save("certificate_of_appearance.pdf");
       } catch (error) {

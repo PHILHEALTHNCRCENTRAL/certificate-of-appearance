@@ -26,13 +26,13 @@ const handleCreateSignature = () => router.push({ name: "signature-pad-page" });
 </script>
 
 <template>
-  <q-card style="max-width: 80%; width: 800px">
-    <q-card-section> </q-card-section>
+  <q-card flat bordered>
     <q-card-section class="text-h6"> Enter your info: </q-card-section>
     <q-form @submit.prevent="handleSubmit" greedy>
       <q-card-section class="q-col-gutter-sm">
         <div class="row q-col-gutter-sm">
           <q-input
+            hide-bottom-space
             v-model="gas.form.ob_date"
             class="col-12 col-md-6"
             label="OB date"
@@ -41,6 +41,7 @@ const handleCreateSignature = () => router.push({ name: "signature-pad-page" });
             :rules="[(val) => !!val || 'OB date is required!']"
           />
           <q-input
+            hide-bottom-space
             v-model="gas.form.place_visited"
             class="col-12 col-md-6"
             label="Place Visited"
@@ -49,6 +50,7 @@ const handleCreateSignature = () => router.push({ name: "signature-pad-page" });
           />
         </div>
         <q-input
+          hide-bottom-space
           v-model="gas.form.employee_name"
           class="col-12"
           label="Employee name"
@@ -57,6 +59,7 @@ const handleCreateSignature = () => router.push({ name: "signature-pad-page" });
         />
         <div class="row q-col-gutter-sm">
           <q-input
+            hide-bottom-space
             v-model="gas.form.time_of_arrival"
             class="col-12 col-md-6"
             label="Time of Arrival"
@@ -65,6 +68,7 @@ const handleCreateSignature = () => router.push({ name: "signature-pad-page" });
             :rules="[(val) => !!val || 'Time of Arrival is required!']"
           />
           <q-input
+            hide-bottom-space
             v-model="gas.form.time_of_departure"
             class="col-12 col-md-6"
             label="Time of Departure"
@@ -74,6 +78,7 @@ const handleCreateSignature = () => router.push({ name: "signature-pad-page" });
           />
         </div>
         <q-input
+          hide-bottom-space
           v-model="gas.form.person_visited"
           class="col"
           label="Person visited"
